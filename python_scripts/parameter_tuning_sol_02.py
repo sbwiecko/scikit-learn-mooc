@@ -18,8 +18,8 @@
 # The goal is to write an exhaustive search to find the best parameters
 # combination maximizing the model statistical performance.
 #
-# Here we use a small subset of the Adult Census dataset to make to code
-# fast to execute. Once your code works on the small subset, try to
+# Here we use a small subset of the Adult Census dataset to make the code
+# faster to execute. Once your code works on the small subset, try to
 # change `train_size` to a larger value (e.g. 0.8 for 80% instead of
 # 20%).
 
@@ -76,8 +76,8 @@ model = Pipeline([
 # %%
 from sklearn.model_selection import cross_val_score
 
-learning_rate = [0.05, 0.1, 0.5, 1, 5]
-max_leaf_nodes = [3, 10, 30, 100]
+learning_rate = [0.01, 0.1, 1, 10]
+max_leaf_nodes = [3, 10, 30]
 
 best_score = 0
 best_params = {}

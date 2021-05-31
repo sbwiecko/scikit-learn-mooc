@@ -23,9 +23,9 @@ print(california_housing.DESCR)
 california_housing.frame.head()
 
 # %% [markdown]
-# A written in the descritpion, the dataset contains aggregated data regarding
-# each district in California. Let's have a close look at the features that
-# can be used by a predictive model.
+# As written in the description, the dataset contains aggregated data regarding
+# each district in California. Let's have a close look at the features that can
+# be used by a predictive model.
 
 # %%
 california_housing.data.head()
@@ -183,7 +183,7 @@ alphas = np.logspace(-3, 1, num=30)
 model = make_pipeline(StandardScaler(), RidgeCV(alphas=alphas))
 cv_results = cross_validate(
     model, california_housing.data, california_housing.target,
-    return_estimator=True, n_jobs=-1)
+    return_estimator=True, n_jobs=2)
 
 # %%
 score = cv_results["test_score"]
