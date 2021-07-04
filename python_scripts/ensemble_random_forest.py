@@ -40,7 +40,7 @@ target = adult_census[target_name]
 # Appendix - Datasets description section at the end of this MOOC.
 # ```
 
-# %%[markdown]
+# %% [markdown]
 #
 # The adult census contains some categorical data and we encode the categorical
 # features using an `OrdinalEncoder` since tree-based models can work very
@@ -144,7 +144,7 @@ print(f"Random forest classifier: "
 # For random forests, it is possible to control the amount of randomness for
 # each split by setting the value of `max_features` hyperparameter:
 #
-# - `max_feature=0.5` means that 50% of the features are considered at each
+# - `max_features=0.5` means that 50% of the features are considered at each
 #   split;
 # - `max_features=1.0` means that all features are considered at each split
 #   which effectively disables feature subsampling.

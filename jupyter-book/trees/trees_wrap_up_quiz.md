@@ -75,25 +75,30 @@ _Select a single answer_
 +++
 
 ```{admonition} Question
-A tree with an optimal depth is performing:
+A tree with an optimal depth has a score of:
 
-- a) better than a linear model
-- b) equally to a linear model
-- c) worse than a linear model
+a) ~0.74 and is better than the linear model
+b) ~0.72 and is equal to the linear model
+c) ~0.7 and is worse than the linear model
 
 _Select a single answer_
 ```
 
 +++
 
-Instead of using only the numerical dataset (which was the variable
-`data_numerical`), use the entire dataset available in the variable `data`.
+Instead of using only the numerical dataset you will now use the entire
+dataset available in the variable `data`.
 
 Create a preprocessor by dealing separately with the numerical and categorical
-columns. For the sake of simplicity, we will define the categorical columns as
-the columns with an `object` data type.
+columns. For the sake of simplicity, we will assume the following:
+
+* categorical columns can be selected if they have an `object` data type;
+* numerical columns can be selected if they do not have an `object` data type.
+  It will be the complement of the numerical columns.
 
 **Do not optimize the `max_depth` parameter for this exercise.**
+
+**Fix the random state of the tree by passing the parameter `random_state=0`**
 
 ```{admonition} Question
 Are the performance in terms of $R^2$ better by incorporating the categorical

@@ -10,7 +10,7 @@
 # they are spelled with a final underscore `_`, for instance `model.coef_`.
 #
 # We will start by loading the adult census dataset and only use the numerical
-# feature.
+# features.
 
 # %%
 import pandas as pd
@@ -64,6 +64,12 @@ print(f"Accuracy score via cross-validation:\n"
 # We created a model with the default `C` value that is equal to 1. If we
 # wanted to use a different `C` parameter we could have done so when we created
 # the `LogisticRegression` object with something like `LogisticRegression(C=1e-3)`.
+#
+# ```{note}
+# For more information on the model hyperparameter `C`, refer to the
+# [documentation](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html).
+# Be aware that we will focus on linear models in an upcoming module.
+# ```
 #
 # We can also change the parameter of a model after it has been created with
 # the `set_params` method, which is available for all scikit-learn estimators.
