@@ -25,10 +25,11 @@ data_train, data_test, target_train, target_test = train_test_split(
 
 # %% [markdown]
 # Create a random forest containing three trees. Train the forest and
-# check the statistical performance on the testing set in terms of mean
+# check the generalization performance on the testing set in terms of mean
 # absolute error.
 
 # %%
+# solution
 from sklearn.metrics import mean_absolute_error
 from sklearn.ensemble import RandomForestRegressor
 
@@ -53,11 +54,12 @@ print(f"Mean absolute error: "
 # with the attribute `estimators_`.
 # ```
 
-# %% [markdown]
+# %% [markdown] tags=["solution"]
 # In a first cell, we will collect all the required predictions from the
 # different trees and forest.
 
 # %%
+# solution
 import numpy as np
 
 data_ranges = pd.DataFrame(np.linspace(170, 235, num=300),
@@ -68,10 +70,10 @@ for tree in forest.estimators_:
 
 forest_predictions = forest.predict(data_ranges)
 
-# %% [markdown]
+# %% [markdown] tags=["solution"]
 # Now, we can plot the predictions that we collected.
 
-# %%
+# %% tags=["solution"]
 import matplotlib.pyplot as plt
 import seaborn as sns
 

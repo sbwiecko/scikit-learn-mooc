@@ -179,8 +179,8 @@ _ = plt.title(f"Optimal depth found via CV: "
 #
 # The `max_depth` hyperparameter controls the overall complexity of the tree.
 # This parameter is adequate under the assumption that a tree is built is
-# symmetric. However, there is not guarantee that a tree will be symmetric.
-# Indeed, optimal statistical performance could be reached by growing some of
+# symmetric. However, there is no guarantee that a tree will be symmetric.
+# Indeed, optimal generalization performance could be reached by growing some of
 # the branches deeper than some others.
 #
 # We will built a dataset where we will illustrate this asymmetry. We will
@@ -230,6 +230,7 @@ _ = plt.title(f"Decision tree with max-depth of {max_depth}")
 # %% [markdown]
 # As expected, we see that the blue blob on the right and the red blob on the
 # top are easily separated. However, more splits will be required to better
+# split the blob were both blue and red data points are mixed.
 #
 # Indeed, we see that red blob on the top and the blue blob on the right of
 # the plot are perfectly separated. However, the tree is still making mistakes

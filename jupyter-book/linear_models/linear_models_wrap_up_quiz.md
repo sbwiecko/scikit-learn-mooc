@@ -2,23 +2,24 @@
 
 **This quiz requires some programming to be answered.**
 
-Open the dataset `house_prices.csv` with the following command:
+Open the dataset `ames_housing_no_missing.csv` with the following command:
 
-```py
-ames_housing = pd.read_csv("../datasets/house_prices.csv", na_values="?")
+```python
+import pandas as pd
+
+ames_housing = pd.read_csv("../datasets/ames_housing_no_missing.csv")
 target_name = "SalePrice"
 data = ames_housing.drop(columns=target_name)
 target = ames_housing[target_name]
 ```
 
 `ames_housing` is a pandas dataframe. The column "SalePrice" contains the
-target variable. Note that we instructed pandas to treat the character "?" as a
-marker for cells with missing values also known as "null" values.
+target variable.
 
 To simplify this exercise, we will only used the numerical features defined
 below:
 
-```
+```python
 numerical_features = [
     "LotFrontage", "LotArea", "MasVnrArea", "BsmtFinSF1", "BsmtFinSF2",
     "BsmtUnfSF", "TotalBsmtSF", "1stFlrSF", "2ndFlrSF", "LowQualFinSF",
@@ -35,17 +36,14 @@ Use a 10-fold cross-validation and pass the argument `return_estimator=True` in
 `sklearn.model_selection.cross_validate` to access all fitted estimators fitted
 on each fold. As we saw in the previous notebooks, you will have to use a
 `sklearn.preprocessing.StandardScaler` to scale the data before passing it to
-the regressor. Also, some missing data are present in the different columns.
-You can use a `sklearn.impute.SimpleImputer` with the default parameters to
-impute missing data. Thus, you can create a model that will **pipeline the
-scaler, followed by the imputer, followed by the linear regression**.
+the regressor.
 
 ```{admonition} Question
-What is the order of magnitude of the extremum weight values over all the features:
+How large is the weight with the largest absolute value in this model?
 
-- a) 1e4
-- b) 1e6
-- c) 1e18
+- a) Lower than 1.0
+- b) Between 1.0 and 1,000.0
+- c) Larger than 1,000.0
 
 _Select a single answer_
 ```
@@ -56,11 +54,11 @@ Repeat the same experiment by fitting a ridge regressor
 (`sklearn.linear_model.Ridge`) with the default parameter.
 
 ```{admonition} Question
-What magnitude of the extremum weight values for all features?
+What is the value of the weight with the largest absolute value in this model?
 
-- a) 1e4
-- b) 1e6
-- c) 1e18
+- a) Lower than 1.0
+- b) Between 1.0 and 100,000.0
+- c) Larger than 100,000.0
 
 _Select a single answer_
 ```
@@ -109,7 +107,7 @@ _Select a single answer_
 +++
 
 Now, we will search for the regularization strength that will maximize the
-statistical performance of our predictive model. Fit a
+generalization performance of our predictive model. Fit a
 [`sklearn.linear_model.RidgeCV`](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeCV.html)
 instead of a `Ridge` regressor pass `alphas=np.logspace(-1, 3, num=30)` to
 explore the effect of changing the regularization strength.
@@ -145,7 +143,7 @@ Now, we will tackle a classification problem instead of a regression problem.
 Load the Adult Census dataset with the following snippet of code and we will
 work only with **numerical features**.
 
-```py
+```python
 adult_census = pd.read_csv("../datasets/adult-census.csv")
 target = adult_census["class"]
 data = adult_census.select_dtypes(["integer", "floating"])
@@ -161,19 +159,6 @@ variable `data`?
 - c) 5
 
 _Select a single answer_
-```
-
-+++
-
-```{admonition} Question
-Are there any missing values in the dataset contained in the variable `data`?
-
-- a) Yes
-- b) No
-
-_Select a single answer_
-
-Hint: you can use `df.info()` to get information regarding each column.
 ```
 
 +++
@@ -213,24 +198,11 @@ _Select a single answer_
 Now, we will work with **both numerical and categorical features**. You can
 load Adult Census with the following snippet:
 
-```py
+```python
 adult_census = pd.read_csv("../datasets/adult-census.csv")
 target = adult_census["class"]
 data = adult_census.drop(columns=["class", "education-num"])
 ```
-
-```{admonition} Question
-Are there missing values in this dataset?
-
-- a) Yes
-- b) No
-
-_Select a single answer_
-
-Hint: you can use `df.info()` to get information regarding each column.
-```
-
-+++
 
 Create a predictive model where the categorical data should be one-hot encoded,
 the numerical data should be scaled, and the predictor used should be a
@@ -241,10 +213,10 @@ On average, what is the increase in terms of accuracy by using the categorical
 features?
 
 - a) It gives similar results
-- b) It increases the statistical performance by 0.025
-- c) it increases the statistical performance by 0.05
-- d) it increases the statistical performance by 0.075
-- e) it increases the statistical performance by 0.1
+- b) It increases the generalization performance by 0.025
+- c) It increases the generalization performance by 0.05
+- d) It increases the generalization performance by 0.075
+- e) It increases the generalization performance by 0.1
 
 _Select a single answer_
 ```
@@ -254,7 +226,7 @@ _Select a single answer_
 For the following questions, you can use the following snippet to get the
 feature names after the preprocessing performed.
 
-```py
+```python
 preprocessor.fit(data)
 feature_names = (preprocessor.named_transformers_["onehotencoder"]
                              .get_feature_names(categorical_columns)).tolist()

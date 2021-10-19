@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
@@ -5,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.11.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -16,7 +17,7 @@
 # # 📝 Exercise M3.01
 #
 # The goal is to write an exhaustive search to find the best parameters
-# combination maximizing the model statistical performance.
+# combination maximizing the model generalization performance.
 #
 # Here we use a small subset of the Adult Census dataset to make the code
 # faster to execute. Once your code works on the small subset, try to
@@ -65,13 +66,21 @@ model = Pipeline([
 # loops, make a search of the best combinations of the `learning_rate` and
 # `max_leaf_nodes` parameters. In this regard, you will need to train and test
 # the model by setting the parameters. The evaluation of the model should be
-# performed using `cross_val_score`. We will use the following parameters
-# search:
+# performed using `cross_val_score` on the training set. We will use the
+# following parameters search:
 # - `learning_rate` for the values 0.01, 0.1, 1 and 10. This parameter controls
 #   the ability of a new tree to correct the error of the previous sequence of
 #   trees
 # - `max_leaf_nodes` for the values 3, 10, 30. This parameter controls the
 #   depth of each tree.
+
+# %%
+# Write your code here.
+
+# %% [markdown]
+#
+# Now use the test set to score the model using the best parameters
+# that we found using cross-validation in the training set.
 
 # %%
 # Write your code here.

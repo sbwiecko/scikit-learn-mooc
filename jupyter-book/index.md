@@ -1,4 +1,4 @@
-# Intro
+# Introduction
 
 ## Course presentation
 
@@ -91,3 +91,4 @@ Note however that it is required to use the
 [version hosted on the fun-mooc platform](
 https://www.fun-mooc.fr/en/courses/machine-learning-python-scikit-learn/)
 to complete the quizzes.
+

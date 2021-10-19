@@ -5,9 +5,9 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.6.0
+#       jupytext_version: 1.11.3
 #   kernelspec:
-#     display_name: Python 3
+#     display_name: Python 3 (ipykernel)
 #     language: python
 #     name: python3
 # ---
@@ -16,13 +16,13 @@
 # # Preprocessing for numerical features
 #
 # In this notebook, we will still use only numerical features.
-
+#
 # We will introduce these new aspects:
 #
 # * an example of preprocessing, namely **scaling numerical variables**;
 # * using a scikit-learn **pipeline** to chain preprocessing and model
 #   training;
-# * assessing the statistical performance of our model via **cross-validation**
+# * assessing the generalization performance of our model via **cross-validation**
 #   instead of a single train-test split.
 #
 # ## Data preparation
@@ -192,7 +192,30 @@ data_train_scaled = pd.DataFrame(data_train_scaled,
 data_train_scaled.describe()
 
 # %% [markdown]
-# We can easily combine these sequential operations with a scikit-learn
+# Notice that the mean of all the columns is close to 0 and the standard deviation
+# in all cases is close to 1.
+# We can also visualize the effect of `StandardScaler` using a jointplot to show
+# both the histograms of the distributions and a scatterplot of any pair of numerical
+# features at the same time. We can observe that `StandardScaler` does not change
+# the structure of the data itself but the axes get shifted and scaled.
+
+# %%
+import matplotlib.pyplot  as plt
+import seaborn as sns
+
+# number of points to visualize to have a clearer plot
+num_points_to_plot = 300
+
+sns.jointplot(data=data_train[:num_points_to_plot], x="age",
+              y="hours-per-week", marginal_kws=dict(bins=15))
+plt.suptitle("Jointplot of 'age' vs 'hours-per-week' \nbefore StandardScaler", y=1.1)
+
+sns.jointplot(data=data_train_scaled[:num_points_to_plot], x="age",
+              y="hours-per-week", marginal_kws=dict(bins=15))
+_ = plt.suptitle("Jointplot of 'age' vs 'hours-per-week' \nafter StandardScaler", y=1.1)
+
+# %% [markdown]
+# We can easily combine sequential operations with a scikit-learn
 # `Pipeline`, which chains together operations and is used as any other
 # classifier or regressor. The helper function `make_pipeline` will create a
 # `Pipeline`: it takes as arguments the successive transformations to perform,
@@ -258,7 +281,7 @@ predicted_target[:5]
 #
 # As a shorthand, we can check the score of the full predictive pipeline
 # calling the method `model.score`. Thus, let's check the computational and
-# statistical performance of such a predictive pipeline.
+# generalization performance of such a predictive pipeline.
 
 # %%
 model_name = model.__class__.__name__
@@ -287,7 +310,7 @@ print(f"The accuracy using a {model_name} is {score:.3f} "
 # %% [markdown]
 # We see that scaling the data before training the logistic regression was
 # beneficial in terms of computational performance. Indeed, the number of
-# iterations decreased as well as the training time. The statistical
+# iterations decreased as well as the training time. The generalization
 # performance did not change since both models converged.
 #
 # ```{warning}
@@ -302,17 +325,18 @@ print(f"The accuracy using a {model_name} is {score:.3f} "
 # %% [markdown]
 # ## Model evaluation using cross-validation
 #
-# In the previous example, we split the original data into a training set and a
-# testing set. This strategy has several issues: in a setting where the amount
-# of data is small, the subset used to train or test will be small. Besides, a
-# single split does not give information regarding the confidence of the
-# results obtained.
+# In the previous example, we split the original data into a training set and a 
+# testing set. The score of a model will in general depend on the way we make 
+# such a split. One downside of doing a single split is that it does not give
+# any information about this variability. Another downside, in a setting where 
+# the amount of data is small, is that the the data available for training
+# and testing will be even smaller after splitting.
 #
 # Instead, we can use cross-validation. Cross-validation consists of repeating
 # the procedure such that the training and testing sets are different each
-# time. Statistical performance metrics are collected for each repetition and
+# time. Generalization performance metrics are collected for each repetition and
 # then aggregated. As a result we can get an estimate of the variability of the
-# model's statistical performance.
+# model's generalization performance.
 #
 # Note that there exists several cross-validation strategies, each of them
 # defines how to repeat the `fit`/`score` procedure. In this section, we will
@@ -380,10 +404,10 @@ print("The mean cross-validation accuracy is: "
 
 # %% [markdown]
 # Note that by computing the standard-deviation of the cross-validation scores,
-# we can estimate the uncertainty of our model statistical performance. This is
+# we can estimate the uncertainty of our model generalization performance. This is
 # the main advantage of cross-validation and can be crucial in practice, for
 # example when comparing different models to figure out whether one is better
-# than the other or whether the statistical performance differences are within
+# than the other or whether the generalization performance differences are within
 # the uncertainty.
 #
 # In this particular case, only the first 2 decimals seem to be trustworthy. If
@@ -396,4 +420,4 @@ print("The mean cross-validation accuracy is: "
 #
 # * seen the importance of **scaling numerical variables**;
 # * used a **pipeline** to chain scaling and logistic regression training;
-# * assessed the statistical performance of our model via **cross-validation**.
+# * assessed the generalization performance of our model via **cross-validation**.

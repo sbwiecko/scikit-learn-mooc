@@ -6,9 +6,9 @@
 # * verify if a GBDT tends to overfit if the number of estimators is not
 #   appropriate as previously seen for AdaBoost;
 # * use the early-stopping strategy to avoid adding unnecessary trees, to
-#   get the best statistical performances.
+#   get the best generalization performances.
 #
-# we will use the California housing dataset to conduct our experiments.
+# We will use the California housing dataset to conduct our experiments.
 
 # %%
 from sklearn.datasets import fetch_california_housing
@@ -26,19 +26,27 @@ data_train, data_test, target_train, target_test = train_test_split(
 # ```
 
 # %% [markdown]
-# Similarly to the previous exercise, create a gradient boosting decision tree
-# and create a validation curve to assess the impact of the number of trees
-# on the statistical performance of the model. Use the mean absolute error
-# to assess the statistical performance of the model.
+# Create a gradient boosting decision tree with `max_depth=5` and
+# `learning_rate=0.5`.
 
 # %%
-import numpy as np
+# solution
 from sklearn.ensemble import GradientBoostingRegressor
+
+gbdt = GradientBoostingRegressor(max_depth=5, learning_rate=0.5)
+
+# %% [markdown]
+# Create a validation curve to assess the impact of the number of trees
+# on the generalization performance of the model. Evaluate the list of parameters
+# `param_range = [1, 2, 5, 10, 20, 50, 100]` and use the mean absolute error
+# to assess the generalization performance of the model.
+
+# %%
+# solution
 from sklearn.model_selection import validation_curve
 
-gbdt = GradientBoostingRegressor()
-param_range = np.unique(np.logspace(0, 1.8, num=30).astype(int))
-train_scores, test_scores = validation_curve(
+param_range = [1, 2, 5, 10, 20, 50, 100]
+gbdt_train_scores, gbdt_test_scores = validation_curve(
     gbdt,
     data_train,
     target_train,
@@ -47,22 +55,22 @@ train_scores, test_scores = validation_curve(
     scoring="neg_mean_absolute_error",
     n_jobs=2,
 )
-train_errors, test_errors = -train_scores, -test_scores
+gbdt_train_errors, gbdt_test_errors = -gbdt_train_scores, -gbdt_test_scores
 
-# %%
+# %% tags=["solution"]
 import matplotlib.pyplot as plt
 
 plt.errorbar(
     param_range,
-    train_errors.mean(axis=1),
-    yerr=train_errors.std(axis=1),
-    label="Training score",
+    gbdt_train_errors.mean(axis=1),
+    yerr=gbdt_train_errors.std(axis=1),
+    label="Training",
 )
 plt.errorbar(
     param_range,
-    test_errors.mean(axis=1),
-    yerr=test_errors.std(axis=1),
-    label="Cross-validation score",
+    gbdt_test_errors.mean(axis=1),
+    yerr=gbdt_test_errors.std(axis=1),
+    label="Cross-validation",
 )
 
 plt.legend()
@@ -77,21 +85,22 @@ _ = plt.title("Validation curve for GBDT regressor")
 #
 # To avoid adding new unnecessary tree, gradient boosting offers an
 # early-stopping option. Internally, the algorithm will use an out-of-sample
-# set to compute the statistical performance of the model at each addition of a
-# tree. Thus, if the statistical performance are not improving for several
+# set to compute the generalization performance of the model at each addition of a
+# tree. Thus, if the generalization performance is not improving for several
 # iterations, it will stop adding trees.
 #
 # Now, create a gradient-boosting model with `n_estimators=1000`. This number
 # of trees will be too large. Change the parameter `n_iter_no_change` such
 # that the gradient boosting fitting will stop after adding 5 trees that do not
-# improve the overall statistical performance.
+# improve the overall generalization performance.
 
 # %%
+# solution
 gbdt = GradientBoostingRegressor(n_estimators=1000, n_iter_no_change=5)
 gbdt.fit(data_train, target_train)
 gbdt.n_estimators_
 
-# %% [markdown]
+# %% [markdown] tags=["solution"]
 # We see that the number of trees used is far below 1000 with the current
 # dataset. Training the GBDT with the entire 1000 trees would have been
 # useless.
